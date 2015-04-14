@@ -1,0 +1,13 @@
+{
+  "name": "NodejsWebApp",
+  "version": "0.0.0",
+  "description": "NodejsWebApp",
+  "main": "server.js",
+  "author": {
+    "name": "Wojciech",
+    "email": ""
+  },
+  "dependencies": {
+    "dirty": "^0.9.9"
+  }
+}
