@@ -11,7 +11,7 @@
     <button ng-click="add()">add sth</button>
     <button ng-click="clear()">clear all</button>
 	<ul>
-		<li ng-repeat="item in items">{{item}}</li>
+		<li ng-repeat="item in items | filter: testModel">{{item}}</li>
 	</ul>
   </body>
 </html>
