@@ -1,8 +1,6 @@
 ﻿var http = require('http');
-var qs = require('querystring');
 var url = require('url');
 var dirty = require('dirty');
-var fs = require('fs');
 
 var db = dirty('users.db');
 var counter = 0;
@@ -13,7 +11,7 @@ function startServer() {
     http.createServer(function (req, res) {
         var requestData = '';
         var pathName = url.parse(req.url).pathname;
-        
+		
         if (req.method === "GET") {
             
             if (pathName == '/index' || pathName == '/') {
@@ -32,19 +30,23 @@ function startServer() {
         } else if (req.method === "POST") {
             
             req.on('data', function (data) {
-                requestData += data;
+                requestData += data.toString();
             });
             
             req.on('end', function () {
-                var postUserData = qs.parse(requestData);
-				console.log(postUserData);
-                res.writeHead(200, { 'Content-Type': 'text/plain' });
+				var user = JSON.parse(requestData);
+                res.writeHead(200, { 'Content-Type': 'application/json' });
                 
                 if (pathName === "/user") {
-					++counter;
-                    db.set(counter, { firstName: postUserData.firstName, lastName: postUserData.lastName });
-                    res.end(counter + ": " + postUserData.firstName + " " + postUserData.lastName);
+					user.id = ++counter;
+					console.log(user);
+                    db.set(counter, user);
+					
+                    res.end(JSON.stringify(user));
                 }
+				else{
+					res.end(": (");
+				}
             });
 
         }
